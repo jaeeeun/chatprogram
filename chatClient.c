@@ -7,12 +7,14 @@
 #define BUFSIZE 1000
 #define PORT 9000
 #define IPADDR "127.0.0.1"
+
 int main(int argc,char*argv[])
 {
 
    //tcp socket create
    int c_sock;
    c_sock=socket(PF_INET,SOCK_STREAM,0);
+
    struct sockaddr_in c_addr;
    int len;
    int n;
@@ -22,17 +24,21 @@ int main(int argc,char*argv[])
       error("socket() error");
    }
 
+
+   /* set the server address that connect clinet*/ 
    memset(&c_addr,0,sizeof(c_addr));
    //c_addr.sin_addr.s_addr=inet_ddr(IPADDR);
    c_addr.sin_family=AF_INET;
    c_addr.sin_port=htons(PORT);
 
+   // connect the sockect for server
    if(connect(c_sock,(struct sockaddr*) &c_addr,sizeof(c_addr))==-1)
    {
-      printf("can not connect\n");
+      printf("cannot connect\n");
       close(c_sock);
       return -1;
    }
+   // request the service and processing
    if ((n=read(c_sock,rcvBuffer,sizeof(rcvBuffer)))<0)
    {
       return -1;
@@ -40,5 +46,5 @@ int main(int argc,char*argv[])
    rcvBuffer[n]='\0';
    printf("received Data : %s\n",rcvBuffer);
 
-  
+   close(c_socket);
 }
