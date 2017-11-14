@@ -1,20 +1,44 @@
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <netinet/in.h>
 
+#define BUFSIZE 1000
+#define PORT 9000
+#define IPADDR "127.0.0.1"
 int main(int argc,char*argv[])
 {
 
    //tcp socket create
-   int sock;
-   sock=socket(PF_INET,SOCK_STREAM,0);
-   if(sock==-1)
+   int c_sock;
+   c_sock=socket(PF_INET,SOCK_STREAM,0);
+   struct sockaddr_in c_addr;
+   int len;
+   int n;
+   char rcvBuffer[BUFSIZE];
+   if(c_sock==-1)
    {
       error("socket() error");
    }
 
-   printf("File Discripteor of crated TCP socekt : %d \n",sock);
+   memset(&c_addr,0,sizeof(c_addr));
+   //c_addr.sin_addr.s_addr=inet_ddr(IPADDR);
+   c_addr.sin_family=AF_INET;
+   c_addr.sin_port=htons(PORT);
 
-   close(sock);
+   if(connect(c_sock,(struct sockaddr*) &c_addr,sizeof(c_addr))==-1)
+   {
+      printf("can not connect\n");
+      close(c_sock);
+      return -1;
+   }
+   if ((n=read(c_sock,rcvBuffer,sizeof(rcvBuffer)))<0)
+   {
+      return -1;
+   }
+   rcvBuffer[n]='\0';
+   printf("received Data : %s\n",rcvBuffer);
 
+  
 }
