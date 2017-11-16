@@ -6,7 +6,9 @@
 
 #define BUFSIZE 1000
 #define PORT 9000
-#define IPADDR "127.0.0.1"
+#define IPADDR "0.0.0.0"
+
+char buffer[BUFSIZE];
 
 int main(int argc,char*argv[])
 {
@@ -38,6 +40,12 @@ int main(int argc,char*argv[])
       close(c_sock);
       return -1;
    }
+
+   // send and receive
+   scanf("%s",buffer);
+   buffer[strlen(buffer)]='\0';
+   write(c_sock,buffer,strlen(buffer)+1);
+
    // request the service and processing
    if ((n=read(c_sock,rcvBuffer,sizeof(rcvBuffer)))<0)
    {
