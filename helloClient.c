@@ -4,6 +4,7 @@
 #include<unistd.h>
 #include<arpa/inet.h>
 #include<sys/socket.h>
+#define BUFSIZE 1024
 
 void error_handling(char *message);
 
@@ -11,8 +12,8 @@ int main(int argc, char* argv[])
 {
 	int sock;
 	struct sockaddr_in serv_addr;
-	char message[30];
-	int str_len = 0;
+	char message[BUFSIZE];
+	int str_len ;
 	int idx = 0, read_len = 0; 
 
 	if(argc!=3)
@@ -32,22 +33,24 @@ int main(int argc, char* argv[])
 
 	if(connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr))==-1)
 		error_handling("connect() error!");
+	else
+		printf("...Connected...\n");
 
-	while(read_len = read(sock, &message[idx++],1))
+	while(1)
 	{
-		if(read_len == -1)
-			error_handling("read() error!");
+		fputs("Input message(Q to quit) : ",stdout);
+		fgets(message, BUFSIZE, stdin);
 
-		str_len+=read_len;
-	}
+		if(!strcmp(message,"q\n") || !strcmp(message, "Q\n"))
+			break;
 
+		write(sock, message, strlen(message));
+		str_len = read(sock, message, BUFSIZE-1);
+		message[str_len] = 0;
+		printf("Message from server : %s", message);
 	
-	//str_len=read(sock, message, sizeof(message)-1);
-	//if(str_len==-1)
-	//	error_handling("read() error!");
-
-	printf("Message from server : %s \n", message);
-	printf("Function read call count : %d \n", str_len);
+	}
+	
 	close(sock);
 
 	return 0;
