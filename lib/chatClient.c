@@ -11,6 +11,8 @@
 char buffer[BUFSIZE];
 char sndBuffer[BUFSIZE], rcvBuffer[BUFSIZE];
 
+pid_t pid;
+
 int main(int argc,char*argv[])
 {
 
@@ -18,22 +20,30 @@ int main(int argc,char*argv[])
    int c_sock;
    c_sock=socket(PF_INET,SOCK_STREAM,0);
 
-   struct sockaddr_in c_addr;
+   struct sockaddr_in server_addr;
    int len;
    int n;
    int n_left,n_recv;
    char rcvBuffer[BUFSIZE];
-   if(c_sock==-1)
-   {
-      error("socket() error");
-   }
+
+   /* server address,port */
+   int serverPort;
+   char *serverAddr;
+  
+   printf("server address:");
+   scanf("%s\n",&serverAddr);
+   printf("server port:");
+   scanf("%d\n",&serverPort);
+
+   /*---------------------*/
+
 
 
    /* set the server address that connect clinet*/ 
-   memset(&c_addr,0,sizeof(c_addr));
-   //c_addr.sin_addr.s_addr=inet_ddr(IPADDR);
-   c_addr.sin_family=AF_INET;
-   c_addr.sin_port=htons(PORT);
+   // memset(&c_addr,0,sizeof(c_addr));
+   // c_addr.sin_addr.s_addr=inet_ddr(IPADDR);
+   // c_addr.sin_family=AF_INET;
+   // c_addr.sin_port=htons(PORT);
 
    // connect the sockect for server
    if(connect(c_sock,(struct sockaddr*) &c_addr,sizeof(c_addr))==-1)
@@ -43,12 +53,41 @@ int main(int argc,char*argv[])
       return -1;
    }
 
-   // send and receive
-   scanf("%s",buffer);
-   buffer[strlen(buffer)]='\0';
-   write(c_sock,buffer,strlen(buffer)+1);
+   bzero((char*) &server_addr,sizeof(server_addr));
+   server_addr.sin_family=AF_INEF;
+   server_addr.sin_addr.s_addr=inet_addr(serverAddr);
+   server_addr.sin_port=htons(serverPort);
 
-   //
+
+   if(connect(connSOck,(Struct sockaddr *)&server_addr,sizeof(server)addr))<0)
+   {
+      printf("talk client can't connect \n");
+      return -1;
+   }
+   printf("talk client connect to talk server\n");
+
+   if(pid=fork())<0)
+   {
+      printf("fork error\n");
+      return -1;
+   }
+   else if(pid>0)
+   {
+     //keybord
+   }
+   else if(pid==0)
+   {
+     //socket
+   }
+   close(sock);
+}
+
+   // send and receive
+  // scanf("%s",buffer);
+   //buffer[strlen(buffer)]='\0';
+   //write(c_sock,buffer,strlen(buffer)+1);
+
+   /*
    while(1){
    if((n=read(0,sndBuffer,BUFSIZE))>0)
    {
@@ -87,5 +126,6 @@ int main(int argc,char*argv[])
   // rcvBuffer[n]='\0';
   // printf("received Data : %s\n",rcvBuffer);
 }
+*/
    close(c_sock);
 }
