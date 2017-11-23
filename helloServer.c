@@ -81,6 +81,12 @@ int main(int argc, char *argv[])
 	
 			if(recv_len > 0)
 			{
+				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
+                        	{
+                                	printf("EXIT Chatting ..\n");
+                                	break;
+                        	}
+
 
 				message[recv_len] = 0;
 				printf("message form Client : %s ",message);
@@ -93,16 +99,47 @@ int main(int argc, char *argv[])
 		{
 			fgets(message, BUFSIZE, stdin);
 			
+			if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
+                        {
+                                write(clnt_sock, message, BUFSIZE);
+				shutdown(clnt_sock, SHUT_WR);
+                                break;
+                        }
+
 			write(clnt_sock, message,BUFSIZE);
 
 		}	
 		
 	}
 
+	if(pid == 0)
+	{
+		printf("exit child_process\n");
+		printf("client want to exit  ...press Q to exit\n");
+		close(clnt_sock);
+		close(serv_sock);
+		return 1;
+	}
+	else
+	{
+		while(!waitpid(-1, &status, WNOHANG))
+		{
+			sleep(5);
+			printf("waitting\n");
+		}
+		printf(" ");
 
-	close(serv_sock);
-	close(clnt_sock);
-	return 0;
+		printf("send child returned value(%d) from kernnel!\n", WEXITSTATUS(status));
+		printf("exit server thanks ... \n");
+		printf("exit parent process\n");
+		
+		close(serv_sock);
+		close(clnt_sock);
+		return 0;
+		
+	}
+
+	
 
 }
 
