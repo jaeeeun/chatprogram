@@ -11,7 +11,7 @@
 void error(char *message)
 {
 	fputs(message, stderr);
-	fputc(' ', stderr);
+	fputc('\n',stderr);
 	exit(1);
 }
 
@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	int serv_sock, clnt_sock, recv_len,status;
 	char message[BUFSIZE], PORT[5];
 
-	char serv_message[] = "Welcom to chatting server!!\n";
+	char serv_message[] = "\n!!Welcom to Chatting Server!!\n";
 
         struct sockaddr_in serv_addr;
         struct sockaddr_in clnt_addr;
@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	
 	serv_sock = socket(PF_INET, SOCK_STREAM, 0);
 	if(serv_sock == -1)
-		error("socket() error\n");
+		error("socket() error");
 
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family=AF_INET;
@@ -49,16 +49,19 @@ int main(int argc, char *argv[])
 
 	if(listen(serv_sock, 5)==-1)
 		error("listen() error");
+		
+
+	printf("_______OPEN SERVER_______\n");
 
 	clnt_addr_size = sizeof(clnt_addr);
 
 	clnt_sock = accept(serv_sock, (struct sockaddr*)&clnt_sock, &clnt_addr_size);
         if(clnt_sock == -1)
-                error("accept() error\n");
+                error("accept() error");
 	else
 	{
-		printf("connected Client\n");
-		printf("Chatting ON");
+		printf(".....connected Client.....\n");
+		printf("\n     ::Chatting ON::\n\n");
 		write(clnt_sock, serv_message, sizeof(serv_message));
 		pid = fork();
 	}
@@ -68,11 +71,20 @@ int main(int argc, char *argv[])
 		if(pid == 0)
 		{
 			recv_len = read(clnt_sock, message, BUFSIZE);
+                        
+		        if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
+                        {
+				printf("EXIT Chatting ..\n");
+				break;
+                        }
+
 	
-			if(recv_len > 1)
+			if(recv_len > 0)
 			{
+
 				message[recv_len] = 0;
-				printf("message form Client : %s",message);
+				printf("message form Client : %s ",message);
+				printf("Input 'Q' to EXIT\n");
 			}
 
 
