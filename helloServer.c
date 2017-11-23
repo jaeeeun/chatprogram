@@ -77,7 +77,13 @@ int main(int argc, char *argv[])
 
 
 		}
-		
+		else
+		{
+			fgets(message, BUFSIZE, stdin);
+			
+			write(clnt_sock, message,BUFSIZE);
+
+		}	
 		
 	}
 
