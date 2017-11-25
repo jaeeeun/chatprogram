@@ -49,9 +49,11 @@ int main(int argc,char*argv[])
    printf("if u want to quit connect, plz inptu Q or Quit\n");
    printf("---------------------------------------------\n");
    printf("\n");
+  
 
    while(1)
    {
+      
       fputs("Input message : ",stdout);
       fgets(message, BUFSIZE, stdin);
       printf("\n");
@@ -76,7 +78,7 @@ int main(int argc,char*argv[])
       printf("\n");
       
 
-
+    
    }
 
    close(c_sock);
