@@ -36,6 +36,7 @@ int main(int argc,char*argv[])
    server_addr.sin_port=htons(serverPort);
 
 
+   //tcp connect
    if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
       printf("talk client can't connect \n");
@@ -48,10 +49,12 @@ int main(int argc,char*argv[])
       fputs("Input message(Q to Quit) :",stdout);
       fgets(message, BUFSIZE, stdin);
 
-      if(!strcmp(message,"q\n")||!strcmp(message,"Q\n"))
+      if(!strcmp(message,"q")||!strcmp(message,"Q"))
          break;
+
       str_len=write(c_sock,message,strlen(message));
       recv_len=0;
+
       while(recv_len<str_len)
       {
           recv_cnt = read(c_sock,&message[recv_len],BUFSIZE);
