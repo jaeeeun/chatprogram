@@ -25,9 +25,9 @@ int main(int argc,char*argv[])
    char *serverAddr;
   
    printf("server address:");
-   scanf("%s\n",serverAddr);
+   scanf("%s",serverAddr);
    printf("server port:");
-   scanf("%d\n",&serverPort);
+   scanf("%d",&serverPort);
 
 
    memset(&server_addr,0,sizeof(server_addr));
@@ -46,10 +46,10 @@ int main(int argc,char*argv[])
 
    while(1)
    {
-      fputs("Input message(Q to Quit) :",stdout);
+      fputs("**Input message(Q to Quit) : \n",stdout);
       fgets(message, BUFSIZE, stdin);
 
-      if(!strcmp(message,"q")||!strcmp(message,"Q"))
+      if(!strcmp(message,"Quit\n")||!strcmp(message,"Q\n"))
          break;
 
       str_len=write(c_sock,message,strlen(message));
@@ -64,7 +64,13 @@ int main(int argc,char*argv[])
       }
       
       message[str_len]=0;
-      printf("Message from server : %s",message);
+      if(message>0)
+      {
+         printf("Message from server : %s \n",message);
+         printf("\n");
+      }
+
+
    }
 
    close(c_sock);
