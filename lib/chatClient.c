@@ -42,12 +42,19 @@ int main(int argc,char*argv[])
       printf("talk client can't connect \n");
       return -1;
    }
-   printf("talk client connect to talk server\n");
+
+   printf("---------------------------------------------\n");
+   printf("     client connect to server      \n");
+   printf("          talk with server      \n");
+   printf("if u want to quit connect, plz inptu Q or Quit\n");
+   printf("---------------------------------------------\n");
+   printf("\n");
 
    while(1)
    {
-      fputs("**Input message(Q to Quit) : \n",stdout);
+      fputs("Input message : ",stdout);
       fgets(message, BUFSIZE, stdin);
+      printf("\n");
 
       if(!strcmp(message,"Quit\n")||!strcmp(message,"Q\n"))
          break;
@@ -64,11 +71,10 @@ int main(int argc,char*argv[])
       }
       
       message[str_len]=0;
-      if(message>0)
-      {
-         printf("Message from server : %s \n",message);
-         printf("\n");
-      }
+      
+      printf("Message from server : %s",message);
+      printf("\n");
+      
 
 
    }
