@@ -49,7 +49,7 @@ int main(int argc,char*argv[])
    printf("---------------------------------------------\n");
    printf("     client connect to server      \n");
    printf("          talk with server      \n");
-   printf("if u want to quit connect, plz inptu Q or Quit\n");
+   printf("if u want to quit connect, plz inptu Q or q\n");
    printf("---------------------------------------------\n");
    printf("\n");
   
@@ -70,18 +70,19 @@ int main(int argc,char*argv[])
             if(!strcmp(message,"Q ")||!strcmp(message,"q "))
              break;
             message[recv_len]=0;
-            printf("server:%s",message);
+            printf("server : %s",message);
          }
       }
       else
       {
-          printf("client:");
+          //printf("client:");
           fgets(message,BUFSIZE,stdin);
           if(!strcmp(message,"Q ")||!strcmp(message,"q"))
-          break;
+          break; 
           write(c_sock,message,BUFSIZE);
       }
-
+     
+     printf("\n");
      // fputs("Input message : ",stdout);
      // fgets(message, BUFSIZE, stdin);
      // printf("\n");
