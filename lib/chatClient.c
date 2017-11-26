@@ -19,6 +19,8 @@ int main(int argc,char*argv[])
    struct sockaddr_in server_addr;
    int str_len,recv_len,recv_cnt;
    char message[BUFSIZE];
+   char name[BUFSIZE];
+
 
    /* pid */
    pid_t pid;
@@ -33,13 +35,19 @@ int main(int argc,char*argv[])
    scanf("%d",&serverPort);
 
 
+   printf("input your name : \n");
+   scanf("%s",name);
+   printf("your name is %s \n",name);
+
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
    server_addr.sin_addr.s_addr=inet_addr(serverAddr);
    server_addr.sin_port=htons(serverPort);
 
 
+
    //tcp connect
+
    if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
       printf("talk client can't connect \n");
@@ -51,10 +59,11 @@ int main(int argc,char*argv[])
    printf("          talk with server      \n");
    printf("if u want to quit connect, plz inptu Q or q\n");
    printf("---------------------------------------------\n");
-   printf("\n");
+  
+   
   
    pid=fork(); // make child process
-
+ 
   
    recv_len=read(c_sock,message,BUFSIZE);
    message[recv_len]=0;
@@ -75,7 +84,7 @@ int main(int argc,char*argv[])
       }
       else
       {
-          //printf("client:");
+        //  printf("%s:",name);
           fgets(message,BUFSIZE,stdin);
           if(!strcmp(message,"Q ")||!strcmp(message,"q"))
           break; 
@@ -83,30 +92,15 @@ int main(int argc,char*argv[])
       }
      
      printf("\n");
-     // fputs("Input message : ",stdout);
-     // fgets(message, BUFSIZE, stdin);
-     // printf("\n");
+   }
 
-     // if(!strcmp(message,"Quit\n")||!strcmp(message,"Q\n"))
-     //    break;
-
-    //  str_len=write(c_sock,message,strlen(message));
-    //  recv_len=0;
-
-    //  while(recv_len<str_len)
-    //  {
-    //      recv_cnt = read(c_sock,&message[recv_len],BUFSIZE);
-    //      if(recv_cnt ==-1)
-    //           printf("error");
-    //      recv_len+=recv_cnt;
-    //  }
-      
-    //  message[str_len]=0;
-      
-    //  printf("Message from server : %s",message);
-    //  printf("\n");
-      
-
+   if(pid==0)
+   {
+      printf("server want to exit\n");
+      close(c_sock);
+   }
+   else
+   {
     
    }
 
