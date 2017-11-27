@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
                         
 		        if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         {
-				printf("EXIT Chatting ..\n");
+				printf("client EXIT Chatting ..\n");
 				break;
                         }
 
@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 			{
 				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         	{
-                                	printf("EXIT Chatting ..\n");
+                                	printf("client EXIT Chatting ..\n");
                                 	break;
                         	}
 
@@ -100,7 +100,8 @@ int main(int argc, char *argv[])
 			fgets(message, BUFSIZE, stdin);
 			
 			if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
-                        {
+                        {      
+                                printf("server exit chatting\n");
                                 write(clnt_sock, message, BUFSIZE);
 				shutdown(clnt_sock, SHUT_WR);
                                 break;
@@ -112,7 +113,7 @@ int main(int argc, char *argv[])
 		
 	}
 
-	if(pid == 0)
+/*	if(pid == 0)
 	{
 		printf("exit child_process\n");
 		printf("client want to exit  ...press Q to exit\n");
@@ -126,6 +127,7 @@ int main(int argc, char *argv[])
 		{
 			sleep(5);
 			printf("waitting\n");
+                        break;
 		}
 		printf(" ");
 
@@ -138,7 +140,7 @@ int main(int argc, char *argv[])
 		return 0;
 		
 	}
-
+*/
 	
 
 }
