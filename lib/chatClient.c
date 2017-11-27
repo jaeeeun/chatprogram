@@ -76,33 +76,32 @@ int main(int argc,char*argv[])
          if(recv_len>1)
          {
             recv_len=read(c_sock,message,BUFSIZE);
-            if(!strcmp(message,"Q ")||!strcmp(message,"q "))
+            if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
+             { printf("server EXIT CHATTING..\n");
              break;
+             }
             message[recv_len]=0;
             printf("server : %s",message);
          }
+   
       }
       else
       {
-        //  printf("%s:",name);
+          //printf("client : ");
           fgets(message,BUFSIZE,stdin);
-          if(!strcmp(message,"Q ")||!strcmp(message,"q"))
-          break; 
+
+          if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
+          {
+             write(c_sock,message,BUFSIZE);
+             printf("Client exit chatting...\n");
+            shutdown(c_sock,SHUT_WR);
+          break;} 
           write(c_sock,message,BUFSIZE);
       }
      
      printf("\n");
    }
 
-   if(pid==0)
-   {
-      printf("server want to exit\n");
-      close(c_sock);
-   }
-   else
-   {
-    
-   }
 
    close(c_sock);
    return 0;
