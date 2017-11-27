@@ -35,9 +35,10 @@ int main(int argc,char*argv[])
    scanf("%d",&serverPort);
 
 
-   printf("input your name : \n");
+   printf("input your name :");
    scanf("%s",name);
    printf("your name is %s \n",name);
+   printf("\n");
 
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
