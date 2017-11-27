@@ -54,11 +54,11 @@ int main(int argc,char*argv[])
       return -1;
    }
 
-   printf("---------------------------------------------\n");
-   printf("     client connect to server      \n");
-   printf("          talk with server      \n");
-   printf("if u want to quit connect, plz inptu Q or q\n");
-   printf("---------------------------------------------\n");
+   printf("┌──────────────────────────────────────────────┐\n");
+   printf("│     client connect to server                 │ \n");
+   printf("│          talk with server                    │\n");
+   printf("│if u want to quit connect, plz inptu Q or q   │\n");
+   printf("└──────────────────────────────────────────────┘\n");
   
    
   
