@@ -35,9 +35,10 @@ int main(int argc,char*argv[])
    scanf("%d",&serverPort);
 
 
-   printf("input your name : \n");
+   printf("input your name :");
    scanf("%s",name);
    printf("your name is %s \n",name);
+   printf("\n");
 
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
@@ -54,11 +55,11 @@ int main(int argc,char*argv[])
       return -1;
    }
 
-   printf("---------------------------------------------\n");
-   printf("     client connect to server      \n");
-   printf("          talk with server      \n");
-   printf("if u want to quit connect, plz inptu Q or q\n");
-   printf("---------------------------------------------\n");
+   printf("┌──────────────────────────────────────────────┐\n");
+   printf("│     client connect to server                 │ \n");
+   printf("│          talk with server                    │\n");
+   printf("│if u want to quit connect, plz inptu Q or q   │\n");
+   printf("└──────────────────────────────────────────────┘\n");
   
    
   
