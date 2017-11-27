@@ -2,14 +2,12 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
+#include <unistd.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 
-#define BUFSIZE 1000
-#define PORT 9000
-#define IPADDR "0.0.0.0"
+#define BUFSIZE 1024
 
-char buffer[BUFSIZE];
-char sndBuffer[BUFSIZE], rcvBuffer[BUFSIZE];
 
 int main(int argc,char*argv[])
 {
@@ -18,74 +16,93 @@ int main(int argc,char*argv[])
    int c_sock;
    c_sock=socket(PF_INET,SOCK_STREAM,0);
 
-   struct sockaddr_in c_addr;
-   int len;
-   int n;
-   int n_left,n_recv;
-   char rcvBuffer[BUFSIZE];
-   if(c_sock==-1)
+   struct sockaddr_in server_addr;
+   int str_len,recv_len,recv_cnt;
+   char message[BUFSIZE];
+   char name[BUFSIZE];
+
+
+   /* pid */
+   pid_t pid;
+
+   /* server address,port */
+   int serverPort;
+   char *serverAddr="0.0.0.0";
+  
+   //printf("server address:");
+   //scanf("%s",serverAddr);
+   printf("server port:");
+   scanf("%d",&serverPort);
+
+
+   printf("input your name : \n");
+   scanf("%s",name);
+   printf("your name is %s \n",name);
+
+   memset(&server_addr,0,sizeof(server_addr));
+   server_addr.sin_family=AF_INET;
+   server_addr.sin_addr.s_addr=inet_addr(serverAddr);
+   server_addr.sin_port=htons(serverPort);
+
+
+
+   //tcp connect
+
+   if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
-      error("socket() error");
-   }
-
-
-   /* set the server address that connect clinet*/ 
-   memset(&c_addr,0,sizeof(c_addr));
-   //c_addr.sin_addr.s_addr=inet_ddr(IPADDR);
-   c_addr.sin_family=AF_INET;
-   c_addr.sin_port=htons(PORT);
-
-   // connect the sockect for server
-   if(connect(c_sock,(struct sockaddr*) &c_addr,sizeof(c_addr))==-1)
-   {
-      printf("cannot connect\n");
-      close(c_sock);
+      printf("talk client can't connect \n");
       return -1;
    }
 
-   // send and receive
-   scanf("%s",buffer);
-   buffer[strlen(buffer)]='\0';
-   write(c_sock,buffer,strlen(buffer)+1);
-
-   //
-   while(1){
-   if((n=read(0,sndBuffer,BUFSIZE))>0)
-   {
-
-     sndBuffer[n]='\0';
-     if(!strcmp(sndBuffer,"quit\n")) break;
+   printf("---------------------------------------------\n");
+   printf("     client connect to server      \n");
+   printf("          talk with server      \n");
+   printf("if u want to quit connect, plz inptu Q or q\n");
+   printf("---------------------------------------------\n");
   
-    printf("original data : %s", sndBuffer);
-    if((n=write(c_sock,sndBuffer,strlen(sndBuffer)))<0)
-    {
-     return (-1);
-    }
+   
+  
+   pid=fork(); // make child process
+ 
+  
+   recv_len=read(c_sock,message,BUFSIZE);
+   message[recv_len]=0;
 
-
-    n_left=n;
-    n_recv=0;
-
-    while(n_left >0)
-    {
-      if((n=read(c_sock,&rcvBuffer[n_recv],n_left))<0)
+   while(1)
+   {
+      
+      if(pid==0)
       {
-        return (-1);
+         if(recv_len>1)
+         {
+            recv_len=read(c_sock,message,BUFSIZE);
+            if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
+             { printf("server EXIT CHATTING..\n");
+             break;
+             }
+            message[recv_len]=0;
+            printf("server : %s",message);
+         }
+   
       }
-      n_left=n_left-n;
-      n_recv=n_recv+n;
-    }
+      else
+      {
+          //printf("client : ");
+          fgets(message,BUFSIZE,stdin);
 
-   rcvBuffer[n_recv]='\0';
-   printf("echod data : %s",rcvBuffer);
-  }
-   // request the service and processing
-  // if ((n=read(c_sock,rcvBuffer,sizeof(rcvBuffer)))<0)
-  // {
-  //    return (-1);
-  // }
-  // rcvBuffer[n]='\0';
-  // printf("received Data : %s\n",rcvBuffer);
-}
+          if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
+          {
+             write(c_sock,message,BUFSIZE);
+             printf("Client exit chatting...\n");
+            shutdown(c_sock,SHUT_WR);
+          break;} 
+          write(c_sock,message,BUFSIZE);
+      }
+     
+     printf("\n");
+   }
+
+
    close(c_sock);
+   return 0;
 }
