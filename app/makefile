@@ -1,5 +1,5 @@
 chatting : chatting.o ../lib/libfuncs.a
-	gcc chatting.c -L../lib -lfuncs -o chatting
+	gcc -o chatting chatting.c -L../lib -lfuncs
 
 
 
