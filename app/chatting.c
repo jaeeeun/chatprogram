@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include "../include/chatClient.h"
+#include "../include/chatServer.h"
 
 int main()
 {
@@ -9,5 +11,24 @@ int main()
   printf("│             2. entry a room                  │\n");  
   printf("│                                              │\n");  
   printf("└──────────────────────────────────────────────┘\n");
+
+ 
+  int n;
+  scanf("%d",&n);
+
+  while(1)
+  {
+     if(n==1)
+     {
+        chatServer();
+     }
+     else if(n==2)
+     {
+        chatClient();
+     }
+     else
+     {
+       scanf("%d",&n);
+     }
 
 }
