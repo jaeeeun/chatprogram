@@ -6,15 +6,8 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include "../include/error_handle.h"
-//#include "../include/chatClient.h"
 #define BUFSIZE 1024
 
-/*void c_error(char *message)
-{
-	fputs(message, stderr);
-	fputc('\n',stderr);
-	exit(1);
-}*/
 
 void client()
 {
@@ -91,7 +84,7 @@ void client()
             
             if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
              { 
-		printf("..Server EXITed Chatting..\n");
+		printf("== Server EXITed Chatting ==\n");
              	break;
              }
             message[recv_len]=0;
@@ -107,7 +100,7 @@ void client()
           if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
           {
              write(c_sock, message, BUFSIZE);
-             printf("_YOU exited chatting_\n");
+             printf("__YOU[Client] Exited Chatting__\n");
              shutdown(c_sock,SHUT_WR);
              break;
 	} 

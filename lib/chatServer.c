@@ -8,13 +8,6 @@
 #include"../include/error_handle.h"
 #define BUFSIZE 1024
 
-/*void error(char *message)
-{
-	fputs(message, stderr);
-	fputc('\n',stderr);
-	exit(1);
-}*/
-
 void server()
 {
 	int s_sock, c_sock, recv_len;
@@ -78,7 +71,7 @@ void server()
 			{
 				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         	{
-                                	printf("..Client EXITed Chatting ..\n");
+                                	printf("== Client EXITed Chatting ==\n");
                                 	break;
                         	}
 
@@ -97,7 +90,7 @@ void server()
                         {      
                                 
                                 write(c_sock, message, BUFSIZE);
-				printf("_you exited chatting_");
+				printf("__You[Server] Exited Chatting__\n");
 				shutdown(c_sock, SHUT_WR);
                                 break;
                         }
