@@ -51,7 +51,8 @@ void server()
 		error("listen() error");
 		
 
-	printf("_______OPEN SERVER_______\n");
+	printf("__________OPEN SERVER__________\n");
+        printf("       waiting for client \n ");
 
 	clnt_addr_size = sizeof(clnt_addr);
 
