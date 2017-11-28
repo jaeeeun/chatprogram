@@ -85,10 +85,11 @@ void client()
             if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
              { 
 		printf("== Server EXITed Chatting ==\n");
+
              	break;
              }
-            message[recv_len]=0;
-            printf("From Server : %s",message);
+              message[recv_len]=0;
+              printf("From Server : %s",message);
          }
    
       }
@@ -101,7 +102,7 @@ void client()
           {
              write(c_sock, message, BUFSIZE);
              printf("__YOU[Client] Exited Chatting__\n");
-             shutdown(c_sock,SHUT_WR);
+             //shutdown(c_sock,SHUT_WR);
              break;
 	} 
           write(c_sock,message,BUFSIZE);

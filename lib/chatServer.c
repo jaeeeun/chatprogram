@@ -67,15 +67,17 @@ void server()
 		{
 			recv_len = read(c_sock, message, BUFSIZE);
 	
-			if(recv_len > 0)
+			if(recv_len > 1)
 			{
 				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         	{
                                 	printf("== Client EXITed Chatting ==\n");
+                                
+                                	
                                 	break;
                         	}
-
-
+				
+				
 				message[recv_len] = 0;
 				printf("Form Client : %s",message);
 			}
@@ -91,7 +93,7 @@ void server()
                                 
                                 write(c_sock, message, BUFSIZE);
 				printf("__You[Server] Exited Chatting__\n");
-				shutdown(c_sock, SHUT_WR);
+				//shutdown(c_sock, SHUT_WR);
                                 break;
                         }
 
