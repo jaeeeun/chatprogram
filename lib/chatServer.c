@@ -5,14 +5,15 @@
 #include<arpa/inet.h>
 #include<sys/socket.h>
 #include<sys/wait.h>
+#include"../include/error_handle.h"
 #define BUFSIZE 1024
 
-void error(char *message)
+/*void error(char *message)
 {
 	fputs(message, stderr);
 	fputc('\n',stderr);
 	exit(1);
-}
+}*/
 
 void server()
 {

@@ -5,15 +5,16 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
+#include "../include/error_handle.h"
 //#include "../include/chatClient.h"
 #define BUFSIZE 1024
 
-void c_error(char *message)
+/*void c_error(char *message)
 {
 	fputs(message, stderr);
 	fputc('\n',stderr);
 	exit(1);
-}
+}*/
 
 void client()
 {
@@ -42,7 +43,7 @@ void client()
 
    c_sock = socket(PF_INET, SOCK_STREAM, 0);
    if(c_sock == -1)
-   	c_error("client_socket() error");
+   	error("client_socket() error");
 
 
    printf("input your name :");
@@ -60,7 +61,7 @@ void client()
 
    if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
-      c_error("talk client can't connect");
+      error("talk client can't connect");
      
    }
 
