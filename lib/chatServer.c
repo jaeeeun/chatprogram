@@ -5,7 +5,7 @@
 #include<arpa/inet.h>
 #include<sys/socket.h>
 #include<sys/wait.h>
-
+#include"../include/chatServer.h"
 #define BUFSIZE 1024
 
 void error(char *message)
@@ -15,9 +15,9 @@ void error(char *message)
 	exit(1);
 }
 
-int main(int argc, char *argv[])
+void server()
 {
-	int serv_sock, clnt_sock, recv_len,status;
+	int serv_sock, clnt_sock, recv_len;
 	char message[BUFSIZE], PORT[5];
 
 	char serv_message[] = "\n!!Welcom to Chatting Server!!\n";

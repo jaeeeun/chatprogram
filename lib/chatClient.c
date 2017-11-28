@@ -5,11 +5,11 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <stdlib.h>
-
+#include "../include/chatClient.h"
 #define BUFSIZE 1024
 
 
-int main(int argc,char*argv[])
+void client()
 {
 
    //tcp socket create
@@ -17,7 +17,7 @@ int main(int argc,char*argv[])
    c_sock=socket(PF_INET,SOCK_STREAM,0);
 
    struct sockaddr_in server_addr;
-   int str_len,recv_len,recv_cnt;
+   int recv_len;
    char message[BUFSIZE];
    char name[BUFSIZE];
 
@@ -52,13 +52,13 @@ int main(int argc,char*argv[])
    if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
       printf("talk client can't connect \n");
-      return -1;
+     
    }
 
    printf("┌──────────────────────────────────────────────┐\n");
-   printf("│     client connect to server                 │ \n");
-   printf("│          talk with server                    │\n");
-   printf("│if u want to quit connect, plz inptu Q or q   │\n");
+   printf("│          client connect to server            │ \n");
+   printf("│              talk with server                │\n");
+   printf("│ if u want to quit connect, plz inptu Q or q  │\n");
    printf("└──────────────────────────────────────────────┘\n");
   
    
@@ -78,7 +78,7 @@ int main(int argc,char*argv[])
          {
             recv_len=read(c_sock,message,BUFSIZE);
             if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
-             { printf("server EXIT CHATTING..\n");
+             { printf("Server exited CHATTING..\n");
              break;
              }
             message[recv_len]=0;
@@ -94,7 +94,7 @@ int main(int argc,char*argv[])
           if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
           {
              write(c_sock,message,BUFSIZE);
-             printf("Client exit chatting...\n");
+             printf("you exited chatting...\n");
             shutdown(c_sock,SHUT_WR);
           break;} 
           write(c_sock,message,BUFSIZE);
@@ -105,5 +105,5 @@ int main(int argc,char*argv[])
 
 
    close(c_sock);
-   return 0;
+   
 }
