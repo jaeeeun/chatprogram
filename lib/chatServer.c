@@ -5,7 +5,6 @@
 #include<arpa/inet.h>
 #include<sys/socket.h>
 #include<sys/wait.h>
-#include"../include/chatServer.h"
 #define BUFSIZE 1024
 
 void error(char *message)
@@ -17,13 +16,13 @@ void error(char *message)
 
 void server()
 {
-	int serv_sock, clnt_sock, recv_len;
+	int s_sock, c_sock, recv_len;
 	char message[BUFSIZE], PORT[5];
 
-	char serv_message[] = "\n!!Welcom to Chatting Server!!\n";
+	//char s_message[] = "\n!!Welcom to Chatting Server!!\n";
 
-        struct sockaddr_in serv_addr;
-        struct sockaddr_in clnt_addr;
+        struct sockaddr_in s_addr;
+        struct sockaddr_in c_addr;
 
 	socklen_t clnt_addr_size;
 	
@@ -34,64 +33,57 @@ void server()
 	fflush(stdin);
 	scanf("%s", PORT);
 	
-	serv_sock = socket(PF_INET, SOCK_STREAM, 0);
-	if(serv_sock == -1)
-		error("socket() error");
+	s_sock = socket(PF_INET, SOCK_STREAM, 0);
+	if(s_sock == -1)
+		error("server_socket() error");
 
-	memset(&serv_addr, 0, sizeof(serv_addr));
-	serv_addr.sin_family=AF_INET;
-	serv_addr.sin_addr.s_addr=htonl(INADDR_ANY);
-         serv_addr.sin_port=htons(atoi(PORT));
+	memset(&s_addr, 0, sizeof(s_addr));
+	s_addr.sin_family=AF_INET;
+	s_addr.sin_addr.s_addr=htonl(INADDR_ANY);
+        s_addr.sin_port=htons(atoi(PORT));
 
 
-	if(bind(serv_sock, (struct sockaddr*) &serv_addr, sizeof(serv_addr))==-1)
+	if(bind(s_sock, (struct sockaddr*) &s_addr, sizeof(s_addr))==-1)
 		error("bind() error");
 
-	if(listen(serv_sock, 5)==-1)
+	if(listen(s_sock, 5)==-1)
 		error("listen() error");
-		
 
-	printf("__________OPEN SERVER__________\n");
-        printf("       waiting for client \n ");
+	clnt_addr_size = sizeof(c_addr);
 
-	clnt_addr_size = sizeof(clnt_addr);
-
-	clnt_sock = accept(serv_sock, (struct sockaddr*)&clnt_sock, &clnt_addr_size);
-        if(clnt_sock == -1)
+	c_sock = accept(s_sock, (struct sockaddr*)&c_sock, &clnt_addr_size);
+        if(c_sock == -1)
                 error("accept() error");
-	else
-	{
-		printf(".....connected Client.....\n");
-		printf("\n     ::Chatting ON::\n\n");
-		write(clnt_sock, serv_message, sizeof(serv_message));
-		pid = fork();
-	}
+
+	printf("┌──────────────────────────────────────────────┐\n");
+   	printf("│          Server Connect To Client            │\n");
+   	printf("│              Talk With Client                │\n");
+   	printf("│ If u want to quit connect, plz input Q or q  │\n");
+   	printf("└──────────────────────────────────────────────┘\n");
+
+		
+	//write(c_sock, s_message, sizeof(serv_message));
+	
+	pid = fork();
+	
 	
 	while(1)
 	{
 		if(pid == 0)
 		{
-			recv_len = read(clnt_sock, message, BUFSIZE);
-                        
-		        if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
-                        {
-				printf("client EXIT Chatting ..\n");
-				break;
-                        }
-
+			recv_len = read(c_sock, message, BUFSIZE);
 	
 			if(recv_len > 0)
 			{
 				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         	{
-                                	printf("client EXIT Chatting ..\n");
+                                	printf("..Client EXITed Chatting ..\n");
                                 	break;
                         	}
 
 
 				message[recv_len] = 0;
-				printf("message form Client : %s ",message);
-				printf("Input 'Q' to EXIT\n");
+				printf("Form Client : %s",message);
 			}
 
 
@@ -102,46 +94,23 @@ void server()
 			
 			if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         {      
-                                printf("server exit chatting\n");
-                                write(clnt_sock, message, BUFSIZE);
-				shutdown(clnt_sock, SHUT_WR);
+                                
+                                write(c_sock, message, BUFSIZE);
+				printf("_you exited chatting_");
+				shutdown(c_sock, SHUT_WR);
                                 break;
                         }
 
-			write(clnt_sock, message,BUFSIZE);
+			write(c_sock, message,BUFSIZE);
 
 		}	
-		
+		printf("\n");		
 	}
 
-/*	if(pid == 0)
-	{
-		printf("exit child_process\n");
-		printf("client want to exit  ...press Q to exit\n");
-		close(clnt_sock);
-		close(serv_sock);
-		return 1;
-	}
-	else
-	{
-		while(!waitpid(-1, &status, WNOHANG))
-		{
-			sleep(5);
-			printf("waitting\n");
-                        break;
-		}
-		printf(" ");
-
-		printf("send child returned value(%d) from kernnel!\n", WEXITSTATUS(status));
-		printf("exit server thanks ... \n");
-		printf("exit parent process\n");
 		
-		close(serv_sock);
-		close(clnt_sock);
-		return 0;
-		
-	}
-*/
+//		close(s_sock);
+//		close(c_sock);
+//		return 0;
 	
 
 }
