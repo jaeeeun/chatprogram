@@ -23,14 +23,18 @@ int main()
      if(n==1)
      {
         server();
+	break;
      }
      else if(n==2)
      {
         client();
+	break;
      }
      else
      {
-       scanf("%d",&n);
+	printf("Input Option [ 1 or 2 ] : " );
+	scanf("%d", &n);
+	printf("\n");
      }
   }
 
