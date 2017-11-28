@@ -1,4 +1,4 @@
-#ifdef CHATSERVER_H
+#ifndef CHATSERVER_H
 #define CHATSERVER_H
 
 void server();

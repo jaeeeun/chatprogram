@@ -1,6 +1,8 @@
-#ifdef CHATCLIENT_H
+#ifndef CHATCLIENT_H
 #define CHATCLIENT_H
 
 void client();
 
 #endif
+
+
