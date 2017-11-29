@@ -29,7 +29,7 @@ void server()
 	
 	s_sock = socket(PF_INET, SOCK_STREAM, 0);
 	if(s_sock == -1)
-		error("server_socket() error");
+		error("Server_socket() error");
 
 	memset(&s_addr, 0, sizeof(s_addr));
 	s_addr.sin_family=AF_INET;
@@ -38,21 +38,21 @@ void server()
 
 
 	if(bind(s_sock, (struct sockaddr*) &s_addr, sizeof(s_addr))==-1)
-		error("bind() error");
+		error("Bind() error");
 
 	if(listen(s_sock, 5)==-1)
-		error("listen() error");
+		error("Listen() error");
 
 	clnt_addr_size = sizeof(c_addr);
 
 	c_sock = accept(s_sock, (struct sockaddr*)&c_sock, &clnt_addr_size);
         if(c_sock == -1)
-                error("accept() error");
+                error("Accept() error");
 
 	printf("┌──────────────────────────────────────────────┐\n");
    	printf("│          Server Connect To Client            │\n");
    	printf("│              Talk With Client                │\n");
-   	printf("│ If u want to quit connect, plz input Q or q  │\n");
+   	printf("│ If u want to quit connect, Plz input Q or q  │\n");
    	printf("└──────────────────────────────────────────────┘\n");
 
 		
