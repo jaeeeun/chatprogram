@@ -36,12 +36,12 @@ void client()
 
    c_sock = socket(PF_INET, SOCK_STREAM, 0);
    if(c_sock == -1)
-   	error("client_socket() error");
+   	error("Client_socket() error");
 
 
-   printf("input your name :");
+   printf("\nInput your name :");
    scanf("%s",name);
-   printf("your name is %s \n",name);
+   printf("Your name is %s \n",name);
 
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
@@ -54,14 +54,14 @@ void client()
 
    if(connect(c_sock,(struct sockaddr *)&server_addr,sizeof(server_addr))<0)
    {
-      error("talk client can't connect");
+      error("Talk client can't connect");
      
    }
 
    printf("┌──────────────────────────────────────────────┐\n");
    printf("│          Client Connect To Server            │\n");
    printf("│              Talk With Server                │\n");
-   printf("│ If u want to quit connect, plz input Q or q  │\n");
+   printf("│ If u want to quit connect, Plz input Q or q  │\n");
    printf("└──────────────────────────────────────────────┘\n");
   
    
