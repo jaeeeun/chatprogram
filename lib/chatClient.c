@@ -14,23 +14,21 @@ void client()
 
    //tcp socket create
    int c_sock;
-   //c_sock=socket(PF_INET,SOCK_STREAM,0);
 
    struct sockaddr_in server_addr;
    int recv_len;
    char message[BUFSIZE];
-   char name[BUFSIZE];
-
+   
 
    /* pid */
    pid_t pid;
 
    /* server address,port */
    int serverPort;
-   char *serverAddr="0.0.0.0";
+   char serverAddr;
   
-   //printf("server address:");
-   //scanf("%s",serverAddr);
+   printf("server address:");
+   scanf("%s",serverAddr);
    printf("Input Server Port Number : ");
    scanf("%d",&serverPort);
 
@@ -40,9 +38,7 @@ void client()
 
 
    printf("\nInput your name :");
-   scanf("%s",name);
-   printf("Your name is %s \n",name);
-
+  
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
    server_addr.sin_addr.s_addr=inet_addr(serverAddr);
