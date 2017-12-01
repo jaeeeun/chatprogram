@@ -79,7 +79,7 @@ void server()
 				
 				
 				message[recv_len] = 0;
-				printf("Form Client : %s",message);
+				printf("From Client : %s",message);
 			}
 
 
