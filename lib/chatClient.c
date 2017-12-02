@@ -17,9 +17,7 @@ void client()
 
    struct sockaddr_in server_addr;
    int recv_len;
-   char message[BUFSIZE];
-   char name[BUFSIZE];
-   
+   char message[BUFSIZE];   
 
    /* pid */
    pid_t pid;
@@ -28,8 +26,6 @@ void client()
    char serverPort[5];
    char *serverAddr = "0.0.0.0";
   
-   //printf("server address:");
-   //scanf("%s",serverAddr);
    printf("Input Server Port Number : ");
    scanf("%s",serverPort);
 
@@ -37,10 +33,6 @@ void client()
    if(c_sock == -1)
    	error("Client_socket() error");
 
-
-   printf("\nInput your name :");
-   scanf("%s", name);
-   printf("Your name is %s \n",name);
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
    server_addr.sin_addr.s_addr=inet_addr(serverAddr);
@@ -67,8 +59,6 @@ void client()
    pid=fork(); // make child process
  
   
-  // recv_len=read(c_sock,message,BUFSIZE);
-   //message[recv_len]=0;
 
    while(1)
    {
