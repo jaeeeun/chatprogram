@@ -13,24 +13,25 @@ void client()
 {
 
    //tcp socket create
-   int c_sock;
+   int c_sock, flag = 0;
 
    struct sockaddr_in server_addr;
    int recv_len;
    char message[BUFSIZE];
+   char name[BUFSIZE];
    
 
    /* pid */
    pid_t pid;
 
    /* server address,port */
-   int serverPort;
-   char serverAddr;
+   char serverPort[5];
+   char *serverAddr = "0.0.0.0";
   
-   printf("server address:");
-   scanf("%s",serverAddr);
+   //printf("server address:");
+   //scanf("%s",serverAddr);
    printf("Input Server Port Number : ");
-   scanf("%d",&serverPort);
+   scanf("%s",serverPort);
 
    c_sock = socket(PF_INET, SOCK_STREAM, 0);
    if(c_sock == -1)
@@ -38,11 +39,12 @@ void client()
 
 
    printf("\nInput your name :");
-  
+   scanf("%s", name);
+   printf("Your name is %s \n",name);
    memset(&server_addr,0,sizeof(server_addr));
    server_addr.sin_family=AF_INET;
    server_addr.sin_addr.s_addr=inet_addr(serverAddr);
-   server_addr.sin_port=htons(serverPort);
+   server_addr.sin_port=htons(atoi(serverPort));
 
 
 
@@ -77,21 +79,25 @@ void client()
 
          if(recv_len>1)
          {
-            
+		            
             if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
              { 
 		printf("== Server EXITed Chatting ==\n");
-
+//		flag = 1;
              	break;
              }
-              message[recv_len]=0;
-              printf("From Server : %s",message);
-         }
-   
-      }
-      else
-      {
+		
+		
+		
+		message[recv_len] = 0;
+		printf("From Server : %s", message);			
+		  
+      	}
+    }
+    else
+    {
           //printf("client : ");
+
           fgets(message, BUFSIZE, stdin);
 
           if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
@@ -99,10 +105,17 @@ void client()
              write(c_sock, message, BUFSIZE);
              printf("__YOU[Client] Exited Chatting__\n");
              //shutdown(c_sock,SHUT_WR);
+//		flag = 1;
              break;
-	} 
+	   }
+	 
+	
+//	if(flag == 0)
           write(c_sock,message,BUFSIZE);
       	  }
+
+	
+
      
      printf("\n");
    }

@@ -10,7 +10,7 @@
 
 void server()
 {
-	int s_sock, c_sock, recv_len;
+	int s_sock, c_sock, recv_len, flag = 0;
 	char message[BUFSIZE], PORT[5];
 
 	//char s_message[] = "\n!!Welcom to Chatting Server!!\n";
@@ -66,13 +66,15 @@ void server()
 		if(pid == 0)
 		{
 			recv_len = read(c_sock, message, BUFSIZE);
+			
 	
 			if(recv_len > 1)
 			{
+			
 				if(!strcmp(message, "q\n") || !strcmp(message, "Q\n") )
                         	{
                                 	printf("== Client EXITed Chatting ==\n");
-                                
+                                	//flag = 1;
                                 	
                                 	break;
                         	}
@@ -80,9 +82,10 @@ void server()
 				
 				message[recv_len] = 0;
 				printf("From Client : %s",message);
+				
+				
+
 			}
-
-
 		}
 		else
 		{
@@ -94,16 +97,21 @@ void server()
                                 write(c_sock, message, BUFSIZE);
 				printf("__You[Server] Exited Chatting__\n");
 				//shutdown(c_sock, SHUT_WR);
+				//flag = 1;
                                 break;
                         }
-
+			
+			//if(flag == 0)
 			write(c_sock, message,BUFSIZE);
 
-		}	
+		}
+				
 		printf("\n");		
-	}
+	
 
-		
+	}//pid
+
+			
 //		close(s_sock);
 //		close(c_sock);
 //		return 0;
