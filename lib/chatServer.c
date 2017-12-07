@@ -13,8 +13,6 @@ void server()
 	int s_sock, c_sock, recv_len, flag = 0;
 	char message[BUFSIZE], PORT[5];
 
-	//char s_message[] = "\n!!Welcom to Chatting Server!!\n";
-
         struct sockaddr_in s_addr;
         struct sockaddr_in c_addr;
 
@@ -26,6 +24,7 @@ void server()
 	printf("Input Server Port Number : ");
 	fflush(stdin);
 	scanf("%s", PORT);
+	printf("waiting for client...\n\n");
 	
 	s_sock = socket(PF_INET, SOCK_STREAM, 0);
 	if(s_sock == -1)
@@ -112,8 +111,8 @@ void server()
 	}//pid
 
 			
-//		close(s_sock);
-//		close(c_sock);
+		close(s_sock);
+		close(c_sock);
 //		return 0;
 	
 

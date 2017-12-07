@@ -24,10 +24,13 @@ void client()
 
    /* server address,port */
    char serverPort[5];
-   char *serverAddr = "0.0.0.0";
+   char serverAddr[20];
   
+   printf("Input Server IP address :");
+   scanf("%s",serverAddr);
    printf("Input Server Port Number : ");
    scanf("%s",serverPort);
+
 
    c_sock = socket(PF_INET, SOCK_STREAM, 0);
    if(c_sock == -1)
@@ -49,7 +52,7 @@ void client()
    }
 
    printf("┌──────────────────────────────────────────────┐\n");
-   printf("│          Client Connect To Server            │\n");
+   printf("│         Client Connected to Server           │\n");
    printf("│              Talk With Server                │\n");
    printf("│ If u want to quit connect, Plz input Q or q  │\n");
    printf("└──────────────────────────────────────────────┘\n");
@@ -72,7 +75,8 @@ void client()
 		            
             if(!strcmp(message,"Q\n")||!strcmp(message,"q\n"))
              { 
-		printf("== Server EXITed Chatting ==\n");
+		printf("====== Server exited Chatting ======\n");
+//                printf("if you want quit a chat, input q or Q\n");
 //		flag = 1;
              	break;
              }
