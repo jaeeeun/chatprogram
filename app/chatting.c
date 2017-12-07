@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "../include/chatServer.h"
 #include "../include/chatClient.h"
+#include <stdlib.h>
 
 int main()
 {
@@ -22,11 +23,13 @@ int main()
   {
      if(n==1)
      {
+        system("clear");
         server();
 	break;
      }
      else if(n==2)
      {
+        system("clear");
         client();
 	break;
      }
