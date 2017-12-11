@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include "../include/error_handle.h"
 #define BUFSIZE 1024
-
+#include <time.h>
 
 void client()
 {
@@ -21,6 +21,12 @@ void client()
 
    /* pid */
    pid_t pid;
+
+   /* timer */
+   time_t timer;
+   struct tm *t;
+   timer=time(NULL);
+   t=localtime(&timer);
 
    /* server address,port */
    char serverPort[5];
@@ -84,7 +90,7 @@ void client()
 		
 		
 		message[recv_len] = 0;
-		printf("From Server : %s", message);			
+		printf("[%d:%d]From Server : %s",t->tm_hour,t->tm_min, message);			
 		  
       	}
     }

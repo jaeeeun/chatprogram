@@ -5,6 +5,7 @@
 #include<arpa/inet.h>
 #include<sys/socket.h>
 #include<sys/wait.h>
+#include<time.h>
 #include"../include/error_handle.h"
 #define BUFSIZE 1024
 
@@ -18,6 +19,11 @@ void server()
 
 	socklen_t clnt_addr_size;
 	
+
+       time_t timer;
+	struct tm *t;
+	timer = time(NULL);
+	t=localtime(&timer);
 
 	pid_t pid;
 
@@ -80,7 +86,7 @@ void server()
 				
 				
 				message[recv_len] = 0;
-				printf("From Client : %s",message);
+				printf("[%d:%d]From Client : %s",t->tm_hour,t->tm_min,message);
 				
 				
 
